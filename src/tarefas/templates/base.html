@@ -1,38 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ título_da_pagina }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>{{ titulo }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'style.css') }}">
 </head>
 <body>
     <h1>Digite a tarefa e a data de conclusão (opcional):</h1>
 
-    <form method="POST" action="."> # Seleciona o método HTTP
-    <input type="text" id="tituloTarefa" name="tituloTarefa">
-    <input type="date" id="dataConclusao" name="dataConclusao">
-    <button type="submit">Adicionar</button>
+    <form method="POST"> <!-- seleciona o método HTTP -->
+        <input type="text" id="tituloTarefa" name="tituloTarefa">
+        <input type="date" id="dataConclusao" name="dataConclusao">
+        <button type="submit">Adicionar</button>
     </form>
-    <!-- output id="listaTarefas">Nenhuma tarefa cadastrada</output> -->
-
+    <!-- <output id="listaTarefas">Nenhuma tarefa cadastrada</output> -->
+    
     <ul id="listaTarefas">
         {% for tarefa in tarefas_da_pagina %}
             <li>
                 {{ tarefa.titulo_tarefa }} - {{ tarefa.data_conclusao }}
-                <a href="#">Apagar</a> <!-- Link para a rota de apagar este ID -->
+                <a href="{{ url_for('apagar_id_especificado', id=tarefa.id_tarefa) }}">Apagar</a> <!-- Link para a rota de apagar este ID -->
             </li>
         {% endfor %}
     </ul>
 
-    <!-- <script>
-        // Aplicação MVC (Modelagem-Visual-Controle)
+    <!--  
+        // Aplicação MVC (Molagem-Vosualização-Controle)
 
-        // Seção de modelagem
+        // Seção de Modelagem
         let tarefas;
         const tarefasSalvas = JSON.parse(localStorage.getItem('tarefas'));
 
-        if (Array.isArray(tarefasSalvas)){
+        if (Array.isArray(tarefasSalvas)) {
             tarefas = tarefasSalvas;
         } else {
             tarefas = [];
@@ -43,14 +43,13 @@
         }
 
         // Seção de Visualização
-
         function renderizarTarefas() {
             const listaTarefas = document.getElementById('listaTarefas');
             listaTarefas.innerHTML = "";
 
             tarefas.forEach(function(tarefa) {
                 const divTarefa = document.createElement('div');
-                divTarefa.innerHTML = tarefa.tituloTarefa + ' - ' + tarefa.dataConclusao;
+                divTarefa.innerHTML = tarefa.tituloTarefa + '-' + tarefa.DataConsclusao;
 
                 const botaoApagar = document.createElement('button');
                 botaoApagar.innerHTML = "❌ Apagar";
@@ -59,11 +58,10 @@
 
                 divTarefa.appendChild(botaoApagar);
                 listaTarefas.appendChild(divTarefa);
-            });
+            })
         }
 
         // Seção de Controle
-
         function adicionarTarefa() {
             const tituloTarefa = document.getElementById('tituloTarefa').value;
             const dataConclusao = document.getElementById('dataConclusao').value;
@@ -71,7 +69,7 @@
             tarefas.push(
                 {
                     tituloTarefa: tituloTarefa,
-                    dataConclusao: dataConclusao,
+                    DataConsclusao: dataConclusao,
                     idTarefa: Date.now()
                 }
             );
@@ -83,7 +81,7 @@
         function apagarTarefa(evento) {
             const botaoClicado = evento.target;
             const idTarefa = botaoClicado.id;
-            tarefas = tarefas.filter(function (tarefa){
+            tarefas = tarefas.filter(function (tarefa) {
                 if (tarefa.idTarefa == idTarefa) {
                     return false;
                 } else {
@@ -93,6 +91,7 @@
 
             salvarTarefas();
             renderizarTarefas();
+
         }
 
         renderizarTarefas();
