@@ -9,12 +9,6 @@ app = Flask(__name__)
 with app.app_context():
     init_db()
 
-
-@app.route('/test')
-def test():
-    return 'Servidor online!'
-
-
 @app.route('/', methods=['GET', 'POST'])
 def home():
 
